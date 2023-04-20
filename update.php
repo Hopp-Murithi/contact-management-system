@@ -1,55 +1,43 @@
-<?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
-
-require_once './db_config.php';
-
-
-// Fetch all contacts from the database
-$sql = "SELECT * FROM contacts";
-$stmt = $pdo->query($sql);
-$contacts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// Check if update form is submitted
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Retrieve form data
-    $contact_id = $_POST['contact_id'];
-    $first_name = $_POST['first_name'];
-    $last_name = $_POST['last_name'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-
-    // Update contact information in the database
-    $sql = "UPDATE contacts SET first_name = ?, last_name = ?, email = ?, phone = ? WHERE id = ?";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$first_name, $last_name, $email, $phone, $contact_id]);
-
-    // Redirect to read.php to view the updated contact list
-    header("Location: read.php");
-    exit();
-}
-?>
-
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Create Contact</title>
-<link href="./styles.css" rel="stylesheet" type="stylesheet">
+    <link rel="stylesheet" href="./styles.css">
+    <title>Update Contact</title>
 </head>
+
 <body>
-    <h1>Create Contact</h1>
-    <form method="post" action="create.php">
-        <label for="first_name">First Name:</label>
-        <input type="text" id="first_name" name="first_name" required><br>
-        <label for="last_name">Last Name:</label>
-        <input type="text" id="last_name" name="last_name" required><br>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br>
-        <label for="phone">Phone:</label>
-        <input type="text" id="phone" name="phone" required><br>
-        <input type="submit" value="Create Contact">
-    </form>
+    <h1>Update Contact</h1>
+    <div class="container">
+    <?php
+    require_once './db_config.php';
+
+    // Check if contact ID is passed in the query parameter
+    if (isset($_GET['id']) && !empty($_GET['id'])) {
+        $contact_id = $_GET['id'];
+
+        // Retrieve contact information from the database based on contact ID
+        $sql = "SELECT * FROM contacts WHERE id = :contact_id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':contact_id', $contact_id, PDO::PARAM_INT);
+        $stmt->execute();
+        $contact = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        
+
+        // Populate form fields with retrieved contact data
+        echo "<form action='update_process.php' method='post'>";
+        echo "First Name: <input type='text' name='first_name' value='" . $contact['first_name'] . "'><br>";
+        echo "Last Name: <input type='text' name='last_name' value='" . $contact['last_name'] . "'><br>";
+        echo "Email: <input type='email' name='email' value='" . $contact['email'] . "'><br>";
+        echo "Phone: <input type='text' name='phone' value='" . $contact['phone'] . "'><br>";
+        echo "<input type='hidden' name='contact_id' value='" . $contact['id'] . "'>";
+        echo "<input type='submit' value='Update'>";
+        echo "</form>";
+    }
+    ?>
+    </div>
   
 </body>
+
 </html>

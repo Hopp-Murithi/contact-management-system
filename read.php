@@ -18,45 +18,51 @@ $contacts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <html>
 
 <head>
-    <title>Contact List</title>
-    <link href="./styles.css" rel="stylesheet" type="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="./styles.css">
+    <title>Contact List </title>
+
 </head>
 
 <body>
     <h1>Contact List</h1>
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Phone</th>
+    <button class="add"><a href="./create.php">Add contact</a></button>
+    <div class="container">
 
-
-        </tr>
-        <?php foreach ($contacts as $contact) : ?>
+        <table border="1">
             <tr>
-                <td><?php echo $contact['id']; ?></td>
-                <td><?php echo $contact['first_name']; ?></td>
-                <td><?php echo $contact['last_name']; ?></td>
-                <td><?php echo $contact['email']; ?></td>
-                <td><?php echo $contact['phone']; ?></td>
-                <td>
-                    <form method="post" action="update.php">
-                        <input type="hidden" name="id" value="<?php echo $contact['id']; ?>">
-                        <input type="submit" value="Update">
-                    </form>
-                </td>
-                <td>
-                    <form method="post" action="delete.php">
-                        <input type="submit" name="submit" value="Delete">
-                    </form>
-                </td>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+
+
             </tr>
-            </td>
-        <?php endforeach; ?>
-    </table>
+            <?php foreach ($contacts as $contact) : ?>
+                <tr>
+                    <td><?php echo $contact['id']; ?></td>
+                    <td><?php echo $contact['first_name']; ?></td>
+                    <td><?php echo $contact['last_name']; ?></td>
+                    <td><?php echo $contact['email']; ?></td>
+                    <td><?php echo $contact['phone']; ?></td>
+                    <td>
+                        <form method=" post" action="./update.php">
+                            <input type="hidden" name="id" value="<?php echo $contact['id']; ?>">
+                            <input type="submit" value="Update">
+                        </form>
+                    </td>
+                    <td>
+                        <form method=" post" action="./delete.php">
+                            <input type="hidden" name="id" value="<?php echo $contact['id']; ?>">
+                            <input type="submit" value="Delete">
+                        </form>
+                    </td>
+                </tr>
+                </td>
+            <?php endforeach; ?>
+        </table>
+    </div>
+
 </body>
 
 </html>

@@ -1,15 +1,4 @@
-
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Delete Contact</title>
-</head>
-<body>
-    <h1>Delete Contact</h1>
-    <p>Are you sure you want to delete this contact?</p>
-    <form method="post" action="delete.php">
-        <input type="submit" value="Yes" <?php
+<?php
 
 require_once './db_config.php';
 
@@ -29,7 +18,5 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 }
 
 ?>>
-        <a href="read.php">No</a>
-    </form>
-</body>
-</html>
+
+

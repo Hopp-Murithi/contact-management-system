@@ -26,12 +26,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <!DOCTYPE html>
 <html>
+
 <head>
+    <link rel="stylesheet" href="./styles.css">
     <title>Create Contact</title>
-<link href="./styles.css" rel="stylesheet" type="stylesheet">
 </head>
+
 <body>
     <h1>Create Contact</h1>
+    <div class="container">
     <form method="post" action="create.php">
         <label for="first_name">First Name:</label>
         <input type="text" id="first_name" name="first_name" required><br>
@@ -43,6 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <input type="text" id="phone" name="phone" required><br>
         <input type="submit" value="Create Contact">
     </form>
-  
+</div>
 </body>
+
 </html>
